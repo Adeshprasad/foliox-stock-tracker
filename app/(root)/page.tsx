@@ -17,6 +17,7 @@ const Home = () => {
                         title="Market Overview"
                         scriptUrl={`${scriptUrl}market-overview.js`}
                         config={MARKET_OVERVIEW_WIDGET_CONFIG}
+                        attribution={{ href: 'https://www.tradingview.com/markets/', label: 'World markets' }}
                         className="custom-chart"
                         height={600}
                     />
@@ -26,6 +27,7 @@ const Home = () => {
                         title="Stock Heatmap"
                         scriptUrl={`${scriptUrl}stock-heatmap.js`}
                         config={HEATMAP_WIDGET_CONFIG}
+                        attribution={{ href: 'https://www.tradingview.com/heatmap/stock/', label: 'Stock Heatmap' }}
                         height={600}
                     />
                 </div>
@@ -35,6 +37,7 @@ const Home = () => {
                     <TradingViewWidget
                         scriptUrl={`${scriptUrl}timeline.js`}
                         config={TOP_STORIES_WIDGET_CONFIG}
+                        attribution={{ href: 'https://www.tradingview.com/news/', label: 'Top stories' }}
                         height={600}
                     />
                 </div>
@@ -42,6 +45,7 @@ const Home = () => {
                     <TradingViewWidget
                         scriptUrl={`${scriptUrl}market-quotes.js`}
                         config={MARKET_DATA_WIDGET_CONFIG}
+                        attribution={{ href: 'https://www.tradingview.com/markets/', label: 'Market summary' }}
                         height={600}
                     />
                 </div>

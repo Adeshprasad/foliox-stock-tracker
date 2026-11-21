@@ -13,6 +13,8 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
         const container = containerRef.current;
         if (!container) return;
 
+        setHasError(false);
+
         // Reattach listeners to an in-flight script when Strict Mode replays the effect.
         let script = container.querySelector<HTMLScriptElement>('script');
         if (!container.dataset.loaded) {
@@ -23,12 +25,35 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
             script.innerHTML = configString;
         }
 
+        let errorTimeout: number | undefined;
+
         const handleError = () => {
-            container.innerHTML = '';
-            delete container.dataset.loaded;
-            setHasError(true);
+            // Defer error reporting: TradingView scripts can fire error events for
+            // subresources (CORS, iframes) even when the widget renders successfully.
+            // Wait 3 seconds and check if the container has actual widget content.
+            errorTimeout = window.setTimeout(() => {
+                if (container) {
+                    const widgetContent = container.querySelector('.tradingview-widget-copyright, iframe, .tradingview-widget-container__widget');
+                    const hasRealContent = container.innerText?.length > 10 ||
+                                           container.querySelector('iframe') ||
+                                           container.querySelector('[class*="tradingview"]');
+                    if (!hasRealContent && !container.dataset.loaded) {
+                        container.innerHTML = '';
+                        delete container.dataset.loaded;
+                        setHasError(true);
+                    }
+                }
+            }, 3000);
         };
-        const handleLoad = () => setHasError(false);
+        const handleLoad = () => {
+            // Script loaded successfully — clear any pending error timeout
+            if (errorTimeout) {
+                clearTimeout(errorTimeout);
+                errorTimeout = undefined;
+            }
+            setHasError(false);
+        };
+
         script?.addEventListener('error', handleError);
         script?.addEventListener('load', handleLoad);
 
@@ -38,10 +63,11 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
         }
 
         return () => {
+            if (errorTimeout) clearTimeout(errorTimeout);
             script?.removeEventListener('error', handleError);
             script?.removeEventListener('load', handleLoad);
-        }
-    }, [scriptUrl, configString, height, retryCount])
+        };
+    }, [scriptUrl, configString, height, retryCount]);
 
     const retry = () => {
         setHasError(false);
@@ -50,4 +76,4 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
 
     return { containerRef, hasError, retry };
 }
-export default useTradingViewWidget
+export default useTradingViewWidget;

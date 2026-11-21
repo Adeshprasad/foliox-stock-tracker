@@ -1,10 +1,10 @@
 import TradingViewWidget from "@/components/TradingViewWidget";
+import TechnicalAnalysisWidget from "@/components/TechnicalAnalysisWidget";
 import WatchlistButton from "@/components/WatchlistButton";
 import {
     SYMBOL_INFO_WIDGET_CONFIG,
     CANDLE_CHART_WIDGET_CONFIG,
     BASELINE_WIDGET_CONFIG,
-    TECHNICAL_ANALYSIS_WIDGET_CONFIG,
     COMPANY_PROFILE_WIDGET_CONFIG,
     COMPANY_FINANCIALS_WIDGET_CONFIG,
 } from "@/lib/constants";
@@ -45,11 +45,7 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
                         <WatchlistButton symbol={symbol.toUpperCase()} company={symbol.toUpperCase()} isInWatchlist={false} />
                     </div>
 
-                    <TradingViewWidget
-                        scriptUrl={`${scriptUrl}technical-analysis.js`}
-                        config={TECHNICAL_ANALYSIS_WIDGET_CONFIG(symbol)}
-                        height={400}
-                    />
+                    <TechnicalAnalysisWidget symbol={symbol} height={400} />
 
                     <TradingViewWidget
                         scriptUrl={`${scriptUrl}company-profile.js`}

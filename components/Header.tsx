@@ -10,8 +10,8 @@ const Header = async ({ user }: { user: User }) => {
         <header className="sticky top-0 header">
             <div className="container header-wrapper">
                 <Link href="/">
-                    <Image src="/assets/icons/logo.svg" alt="FolioX logo" width={140} height={32}
-                           className="h-8 w-auto cursor-pointer"/>
+                    <Image src="/icons/logo.png" alt="FolioX logo" width={190} height={45}
+                           className="h-[45px] w-auto cursor-pointer"/>
                 </Link>
                 <nav className="hidden sm:block">
 

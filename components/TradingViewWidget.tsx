@@ -11,10 +11,11 @@ interface TradingViewWidgetProps {
     attribution?: { href: string; label: string };
     height?: number;
     className?: string;
+    isModule?: boolean;
 }
 
-const TradingViewWidget = ({ title, scriptUrl, config, attribution, height = 600, className }: TradingViewWidgetProps) => {
-    const { containerRef, hasError, retry } = useTradingViewWidget(scriptUrl, config, height);
+const TradingViewWidget = ({ title, scriptUrl, config, attribution, height = 600, className, isModule = false }: TradingViewWidgetProps) => {
+    const { containerRef, hasError, retry } = useTradingViewWidget(scriptUrl, config, height, isModule);
 
     return (
         <div className="w-full">

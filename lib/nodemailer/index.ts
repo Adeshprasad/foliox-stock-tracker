@@ -36,7 +36,7 @@ export const sendNewsSummaryEmail = async (
         from: `"FolioX News" <adeshprasad010@gmail.com>`,
         to: email,
         subject: `📈 Market News Summary Today - ${date}`,
-        text: `Today's market news summary from Signalist`,
+        text: `Today's market news summary from FolioX`,
         html: htmlTemplate,
     };
 

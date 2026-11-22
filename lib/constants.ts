@@ -42,7 +42,7 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
     dateRange: '12M', // last 12 months
     locale: 'en', // language
     largeChartUrl: '', // link to a large chart if needed
-    isTransparent: true, // makes background transparent
+    isTransparent: false, // makes background transparent
     showFloatingTooltip: true, // show tooltip on hover
     plotLineColorGrowing: '#0FEDBE', // line color when price goes up
     plotLineColorFalling: '#0FEDBE', // line color when price falls
@@ -88,7 +88,8 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
         },
     ],
     support_host: 'https://www.tradingview.com', // TradingView host
-    backgroundColor: '#141414', // background color
+    backgroundColor: '#000000', // background color
+    textColor: '#EEEEEE', // text color
     width: '100%', // full width
     height: 600, // height in px
     showSymbolLogo: true, // show logo next to symbols
@@ -100,7 +101,7 @@ export const HEATMAP_WIDGET_CONFIG = {
     blockSize: 'market_cap_basic',
     blockColor: 'change',
     grouping: 'sector',
-    isTransparent: true,
+    isTransparent: false,
     locale: 'en',
     symbolUrl: '',
     colorTheme: 'dark',
@@ -112,62 +113,44 @@ export const HEATMAP_WIDGET_CONFIG = {
     isMonoSize: false,
     width: '100%',
     height: '600',
+    backgroundColor: '#141414',
+    textColor: '#EEEEEE',
 };
 
 export const TOP_STORIES_WIDGET_CONFIG = {
     displayMode: 'regular',
     feedMode: 'market',
     colorTheme: 'dark',
-    isTransparent: true,
+    isTransparent: false,
     locale: 'en',
     market: 'stock',
     width: '100%',
     height: '600',
+    backgroundColor: '#141414',
+    textColor: '#EEEEEE',
 };
 
-export const MARKET_DATA_WIDGET_CONFIG = {
-    title: 'Stocks',
+export const SCREENER_WIDGET_CONFIG = {
+    'show-symbol-logo': true,
+    'show-symbol-flag': true,
+    'show-tooltip': true,
+    watchlist: 'US equities',
+    columns: 'opecperf,qstrc,change,ochange,perf,change_abs,price,mktcap,vol,stri',
+    footer: true,
+    'page-links': false,
+    'enable-filters': false,
+    'is-transparent': true,
     width: '100%',
-    height: 600,
+    height: '100%',
     locale: 'en',
-    showSymbolLogo: true,
-    colorTheme: 'dark',
-    isTransparent: false,
-    backgroundColor: '#0F0F0F',
-    symbolsGroups: [
-        {
-            name: 'Financial',
-            symbols: [
-                { name: 'NYSE:JPM', displayName: 'JPMorgan Chase' },
-                { name: 'NYSE:WFC', displayName: 'Wells Fargo Co New' },
-                { name: 'NYSE:BAC', displayName: 'Bank Amer Corp' },
-                { name: 'NYSE:HSBC', displayName: 'Hsbc Hldgs Plc' },
-                { name: 'NYSE:C', displayName: 'Citigroup Inc' },
-                { name: 'NYSE:MA', displayName: 'Mastercard Incorporated' },
-            ],
-        },
-        {
-            name: 'Technology',
-            symbols: [
-                { name: 'NASDAQ:AAPL', displayName: 'Apple' },
-                { name: 'NASDAQ:GOOGL', displayName: 'Alphabet' },
-                { name: 'NASDAQ:MSFT', displayName: 'Microsoft' },
-                { name: 'NASDAQ:FB', displayName: 'Meta Platforms' },
-                { name: 'NYSE:ORCL', displayName: 'Oracle Corp' },
-                { name: 'NASDAQ:INTC', displayName: 'Intel Corp' },
-            ],
-        },
-        {
-            name: 'Services',
-            symbols: [
-                { name: 'NASDAQ:AMZN', displayName: 'Amazon' },
-                { name: 'NYSE:BABA', displayName: 'Alibaba Group Hldg Ltd' },
-                { name: 'NYSE:T', displayName: 'At&t Inc' },
-                { name: 'NYSE:WMT', displayName: 'Walmart' },
-                { name: 'NYSE:V', displayName: 'Visa' },
-            ],
-        },
-    ],
+    theme: 'dark',
+    'is-single-symbol': false,
+    'no-time-scale-columns': false,
+    'display-total': false,
+    'show-dialog-for-custom-symbols': true,
+    'background-color': '#141414',
+    'text-color': '#EEEEEE',
+    'table-color': '#141414',
 };
 
 export const SYMBOL_INFO_WIDGET_CONFIG = (symbol: string) => ({

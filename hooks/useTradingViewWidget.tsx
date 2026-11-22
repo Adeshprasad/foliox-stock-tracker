@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, useMemo } from "react";
 
-const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>, height = 600) => {
+const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>, height = 600, isModule = false) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [hasError, setHasError] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
@@ -18,11 +18,33 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
         // Reattach listeners to an in-flight script when Strict Mode replays the effect.
         let script = container.querySelector<HTMLScriptElement>('script');
         if (!container.dataset.loaded) {
-            container.innerHTML = `<div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>`;
-            script = document.createElement("script");
-            script.src = scriptUrl;
-            script.async = true;
-            script.innerHTML = configString;
+            if (isModule) {
+                // Module script: load once on body, then create the web component in the container
+                container.innerHTML = '';
+                script = document.createElement("script");
+                script.type = "module";
+                script.src = scriptUrl;
+                document.body.appendChild(script);
+                script.addEventListener('load', () => {
+                    // Create the web component after the module script loads
+                    const widget = document.createElement('tv-screener');
+                    for (const [key, value] of Object.entries(config)) {
+                        if (value !== undefined && value !== null) {
+                            widget.setAttribute(key, String(value));
+                        }
+                    }
+                    widget.style.width = '100%';
+                    widget.style.height = `${height}px`;
+                    container.innerHTML = '';
+                    container.appendChild(widget);
+                });
+            } else {
+                container.innerHTML = `<div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>`;
+                script = document.createElement("script");
+                script.src = scriptUrl;
+                script.async = true;
+                script.innerHTML = configString;
+            }
         }
 
         let errorTimeout: number | undefined;
@@ -67,7 +89,7 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
             script?.removeEventListener('error', handleError);
             script?.removeEventListener('load', handleLoad);
         };
-    }, [scriptUrl, configString, height, retryCount]);
+    }, [scriptUrl, configString, height, retryCount, isModule]);
 
     const retry = () => {
         setHasError(false);
